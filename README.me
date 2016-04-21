@@ -8,6 +8,8 @@ The CropField module provides `CropField`, a Picture Upload in Frontend with int
 * Upload Images on the frontend, and directly Crop the with JCrop 
 * Drag-and-drop uploading
 
+## Requirements
+* silverstripe-dropzone (https://github.com/unclecheese/silverstripe-dropzone)
 ## Usage
 ```php
 	function ImageFrom(){
