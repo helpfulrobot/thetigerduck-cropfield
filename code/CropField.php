@@ -77,6 +77,54 @@ class CropField extends FileAttachmentField {
 				'detach' => false));*/
 	}
 	
+	public function FieldHolder($attributes = array ()) {
+		Requirements::javascript(DROPZONE_DIR.'/javascript/dropzone.js');
+		Requirements::javascript(DROPZONE_DIR.'/javascript/file_attachment_field.js');
+		if($this->isCMS()) {
+			Requirements::javascript(DROPZONE_DIR.'/javascript/file_attachment_field_backend.js');
+		}
+		Requirements::css(DROPZONE_DIR.'/css/file_attachment_field.css');
+		
+		if(!$this->getSetting('url')) {
+			$this->settings['url'] = $this->Link('upload');
+		}
+		
+		if(!$this->getSetting('maxFilesize')) {
+			$this->settings['maxFilesize'] = static::get_filesize_from_ini();
+		}
+		// The user may not have opted into a multiple upload. If the form field
+		// is attached to a record that has a multi relation, set that automatically.
+		$this->settings['uploadMultiple'] = $this->IsMultiple();
+		
+		// Auto filter images if assigned to an Image relation
+		if($class = $this->getFileClass()) {
+			if(Injector::inst()->get($class) instanceof Image) {
+				$this->imagesOnly();
+			}
+		}
+		
+		if($token = $this->getForm()->getSecurityToken()) {
+			$this->addParam($token->getName(), $token->getSecurityID());
+		}
+		
+		
+		
+		/*
+		 * <script src="cropfield/js/jquery.min.js"></script>
+<script src="cropfield/js/jquery.Jcrop.js"></script>
+
+<link rel="stylesheet" href="cropfield/css/jquery.Jcrop.css" type="text/css" />
+<link rel="stylesheet" href="cropfield/css/jquery.Jcrop.css" type="text/css" />
+<link rel="stylesheet" href="cropfield/css/dropzone_alter.css" type="text/css" />
+		 */
+		Requirements::javascript('cropfield/js/jquery.min.js');
+		Requirements::javascript('cropfield/js/jquery.Jcrop.js');
+		Requirements::javascript('cropfield/js/cropfield.js');
+		Requirements::css('cropfield/css/jquery.Jcrop.css');
+		Requirements::css('cropfield/css/dropzone_alter.css');
+		return parent::FieldHolder($attributes);
+	}
+	
 	public function IsMultiple() {
 		return false;
 	}
