@@ -1,9 +1,9 @@
 <div class="$CSSSize">
-	<input type="hidden" id="Form_{$Name}From_posX" class="numeric text hidden" name="{$Name}_posX">
-	<input type="hidden" id="Form_{$Name}From_posY" class="numeric text hidden" name="{$Name}_posY">
-	<input type="hidden" id="Form_{$Name}From_width" class="numeric text hidden" name="{$Name}_width">
-	<input type="hidden" id="Form_{$Name}From_height" class="numeric text hidden" name="{$Name}_height">
-	<img id="cropArea" data-dz-thumbnail style="width: auto;">
+	<input type="hidden" id="Form_{$Name}From_posX" class="numeric text hidden" name="{$Name}[posX]" value="$posX">
+	<input type="hidden" id="Form_{$Name}From_posY" class="numeric text hidden" name="{$Name}[posY]" value="$posY">
+	<input type="hidden" id="Form_{$Name}From_width" class="numeric text hidden" name="{$Name}[width]" value="$width">
+	<input type="hidden" id="Form_{$Name}From_height" class="numeric text hidden" name="{$Name}[height]" value="$height">
+	<img id="cropArea" data-dz-thumbnail>
 	<span class="file-progress-holder">
 		<span class="file-progress-wrap">
 			<span class="file-progress" data-dz-uploadprogress></span>

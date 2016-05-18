@@ -4,3 +4,15 @@ ul.file-attachment-field-previews{
 	padding: 0!important;
 	
 }
+.dz-image-preview{
+	background: #222;
+}
+.jcrop-holder{
+	margin: 0 auto;
+}
+#oldImagePrev{
+	background: #222;
+}
+	#oldImagePrev img{
+		margin: 0 auto;
+	}

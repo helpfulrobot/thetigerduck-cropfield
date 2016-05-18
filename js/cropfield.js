@@ -12,16 +12,17 @@ jQuery().ready(function($){
 	
 	if(boxWidth == 0){
 		boxWidth = $('#Dropzone').width();
-		boxHeight = 0;
+		//boxHeight = 0;
 	}
 	
 	var jcrop_api;
 	$('#Dropzone').data('dropzoneInterface').backend.on('addedfile',function(){
+		$('#oldImagePrev').remove();
 		if (this.files[1]!=null){
 			this.removeFile(this.files[0]);
 		}
 	});
-	console.log("boxwidth: "+boxWidth);
+	//console.log("boxwidth: "+boxWidth);
 	$('#Dropzone').data('dropzoneInterface').backend.on('complete',function(){
 		setTimeout(function(){
 			var pic_real_width = document.querySelector('#cropArea').naturalWidth;
@@ -32,15 +33,21 @@ jQuery().ready(function($){
 				alert("Uploaded Image is too Small. must have at least "+minWidth+"x"+minHeight+"px");
 			}
 			//var boxHeight = boxWidth/pic_real_width*pic_real_height;
-			boxHeight = boxWidth/pic_real_width*pic_real_height;
-			var offsetX = (pic_real_width/2) - (boxHeight);
+			//boxHeight = boxWidth/pic_real_width*pic_real_height;
+			if(pic_real_width > pic_real_height){
+				var offsetX = (pic_real_width/2) - (pic_real_height/2);
+				var offsetY = 0;
+			} else{
+				var offsetX = 0;
+				var offsetY = (pic_real_height/2) - (pic_real_width/2);;
+			}
 			$('#cropArea').css("width","auto");
 			$('.jcrop-holder').css("width","100%");
 			$('#cropArea').Jcrop({
 				onChange:   setCoords,
 				onSelect:   setCoords,
 				onRelease:  clearCoords,
-				setSelect:   [ offsetX, 0, pic_real_width, pic_real_height],
+				setSelect:   [ offsetX, offsetY, pic_real_width, pic_real_height],
 				minSize:  [minWidth, minHeight],
 				maxSize: [maxWidth, maxHeight],
 				boxWidth: boxWidth,
@@ -49,7 +56,8 @@ jQuery().ready(function($){
 			},function(){
 				jcrop_api = this;
 			})
-		},500);
+			//console.log("bw: "+boxWidth+" bh: "+boxHeight);
+		},1000);
 	});
 });
 
@@ -57,6 +65,7 @@ jQuery().ready(function($){
 // event handlers, as per the Jcrop invocation above
 function setCoords(c) {
 	
+	var fieldname = $('#Dropzone').data('fieldname');
 	var pic_real_width = document.querySelector('#cropArea').naturalWidth;
 	var pic_real_height = document.querySelector('#cropArea').naturalHeight;
 	
@@ -65,10 +74,10 @@ function setCoords(c) {
 	var offsetW = Math.round(c.w * (pic_real_width / $('#cropArea').width()));
 	var offsetH = Math.round(c.h * (pic_real_height / $('#cropArea').height()));
 	
-	$('#Form_ImageFrom_posX').val(offsetX);
-	$('#Form_ImageFrom_posY').val(offsetY);
-	$('#Form_ImageFrom_width').val(offsetW);
-	$('#Form_ImageFrom_height').val(offsetH);
+	$('#Form_'+fieldname+'From_posX').val(offsetX);
+	$('#Form_'+fieldname+'From_posY').val(offsetY);
+	$('#Form_'+fieldname+'From_width').val(offsetW);
+	$('#Form_'+fieldname+'From_height').val(offsetH);
 };
 
 function clearCoords() {

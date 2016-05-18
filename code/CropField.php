@@ -25,8 +25,8 @@
  * 	}
  * 	
  * 	function submit($data,$form){
- * 		$original = Image::get()->byID($data['Image']);
- * 		$cropped = $original->CroppedFromPos($data['Image_width'], $data['Image_height'], $data['Image_posX'], $data['Image_posY']);
+ * 		$original = Image::get()->byID($data['Image']['ID']);
+ * 		$cropped = $original->CroppedFromPos($data['Image']['width'], $data['Image']['height'], $data['Image']['posX'], $data['Image']['posY']);
  * 		//overwrite the Original Image by the Cropped one
  * 		copy(Director::baseFolder() . "/" . $cropped->Filename, Director::baseFolder() . "/" . $original->Filename);
  * 		$this->data()->ImageID = $original->ID;
@@ -71,10 +71,6 @@ class CropField extends FileAttachmentField {
 			->setThumbnailHeight(10000)
 			->setThumbnailWidth(10000)
 			->imagesOnly();
-		/*
-			->setPermissions(array(
-				'delete' => false,
-				'detach' => false));*/
 	}
 	
 	public function FieldHolder($attributes = array ()) {
@@ -106,17 +102,6 @@ class CropField extends FileAttachmentField {
 		if($token = $this->getForm()->getSecurityToken()) {
 			$this->addParam($token->getName(), $token->getSecurityID());
 		}
-		
-		
-		
-		/*
-		 * <script src="cropfield/js/jquery.min.js"></script>
-<script src="cropfield/js/jquery.Jcrop.js"></script>
-
-<link rel="stylesheet" href="cropfield/css/jquery.Jcrop.css" type="text/css" />
-<link rel="stylesheet" href="cropfield/css/jquery.Jcrop.css" type="text/css" />
-<link rel="stylesheet" href="cropfield/css/dropzone_alter.css" type="text/css" />
-		 */
 		Requirements::javascript('cropfield/js/jquery.min.js');
 		Requirements::javascript('cropfield/js/jquery.Jcrop.js');
 		Requirements::javascript('cropfield/js/cropfield.js');
@@ -188,16 +173,5 @@ class CropField extends FileAttachmentField {
 		$img = Image::get()->byID($this->imageID);
 		return $img->getFormattedImage('CroppedImage', $this->width, $this->height, $this->posX, $this->posY);
 	}
-	/*
-	public function Value() {
-		//return $img = Image::get()->byID($this->imageID);
-		return array(
-			"orig" => $img,
-			"new" => $img->getFormattedImage('CroppedImage', $this->width, $this->height, $this->posX, $this->posY),
-			"posX" => $this->posX,
-			"posY" => $this->posY,
-			"width" => $this->width,
-			"height" => $this->height,
-		);
-	}*/
+
 }

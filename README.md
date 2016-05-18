@@ -23,8 +23,8 @@ The CropField module provides `CropField`, a Picture Upload in Frontend with int
 	}
 	
 	function submit($data,$form){
-		$original = Image::get()->byID($data['Image']);
-		$cropped = $original->CroppedFromPos($data['Image_width'], $data['Image_height'], $data['Image_posX'], $data['Image_posY']);
+		$original = Image::get()->byID($data['Image']['ID']);
+		$cropped = $original->CroppedFromPos($data['Image']['width'], $data['Image']['height'], $data['Image']['posX'], $data['Image']['posY']);
 		//overwrite the Original Image by the Cropped one
 		copy(Director::baseFolder() . "/" . $cropped->Filename, Director::baseFolder() . "/" . $original->Filename);
 		$this->data()->ImageID = $original->ID;
