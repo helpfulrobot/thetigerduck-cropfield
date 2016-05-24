@@ -1,5 +1,5 @@
 {
-    "name": "TheTigerDuck/cropfield",
+    "name": "thetigerduck/cropfield",
     "description": "The CropField module provides CropField, a Picture Upload in Frontend with integratet JCrop functionallity, based on Dropzone.",
     "type": "silverstripe-module",
     "keywords": ["silverstripe", "upload", "uploader", "files", "forms", "cms", "jcrop"],
